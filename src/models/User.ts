@@ -56,16 +56,6 @@ const UserSchema: Schema = new Schema({
     }
 }, { strict: "throw" });
 
-UserSchema.pre<IUser>('save', function (next) {
-    const error = this.validateSync();
-    if (error) {
-        const validationErrors = Object.values(error.errors).map((err) => err.message);
-        next(new Error(validationErrors.join(', ')));
-    } else {
-        next();
-    }
-});
-
 const UserModel = mongoose.model<IUser>('User', UserSchema);
 
 export default UserModel;

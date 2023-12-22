@@ -59,7 +59,7 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
 }); };
 exports.getUsers = getUsers;
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newUser, error_2;
+    var newUser, error_2, validationErrors;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -72,7 +72,11 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _a.sent();
-                if (error_2.code === 11000) {
+                if (error_2.name === 'ValidationError') {
+                    validationErrors = Object.values(error_2.errors).map(function (err) { return err.message; });
+                    res.status(400).json({ error: 'Validation Error', details: validationErrors });
+                }
+                else if (error_2.code === 11000) {
                     res.status(400).json({ error: 'Duplicate key violation' });
                 }
                 else {

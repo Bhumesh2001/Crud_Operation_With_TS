@@ -47,15 +47,5 @@ var UserSchema = new mongoose_1.Schema({
         required: true,
     }
 }, { strict: "throw" });
-UserSchema.pre('save', function (next) {
-    var error = this.validateSync();
-    if (error) {
-        var validationErrors = Object.values(error.errors).map(function (err) { return err.message; });
-        next(new Error(validationErrors.join(', ')));
-    }
-    else {
-        next();
-    }
-});
 var UserModel = mongoose_1.default.model('User', UserSchema);
 exports.default = UserModel;
